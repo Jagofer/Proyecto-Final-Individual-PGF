@@ -10,16 +10,16 @@ public class ProductoGestion {
 
     public ProductoGestion() {
         productos.put(1L, new Producto(1, "Producto A", "Descripción A", 100.0f, 10));
-        productos.put(2L, new Producto(2, "Producto B", "Descripción B", 150.0f, 0));
+        productos.put(2L, new Producto(2L, "Producto B", "Descripción B", 150.0f, 0));
     }
 
     // 1. Obtener un producto por ID
     public Producto getProductoPorId(long id) {
-        if (!productos.containsKey(id)) {
-            System.out.println("Producto no encontrado.");
-            return null;
+        Producto producto = productos.get(id);
+        if (producto == null) {
+            System.out.println("Producto no encontrado con ID: " + id);
         }
-        return productos.get(id);
+        return producto;
     }
 
     // 2. Obtener todos los productos
@@ -29,29 +29,35 @@ public class ProductoGestion {
 
     // 3. Crear un nuevo producto
     public Producto crearProducto(Producto producto) {
+        if (producto == null || producto.getNombre() == null || producto.getDescripcion() == null) {
+            throw new IllegalArgumentException("El producto debe tener un nombre y una descripción válidos.");
+        }
+
         long maxId = productos.keySet().stream().mapToLong(k -> k).max().orElse(0);
         producto.setId(maxId + 1);
         productos.put(producto.getId(), producto);
 
-        // System.out.println("Producto creado: " + producto.getNombre());
         return producto;
     }
 
     // 4. Actualizar un producto existente
     public Producto actualizarProducto(Long id, Producto productoActualizado) {
-        if (!productos.containsKey(id)) { // Verificamos si el ID existe
-            System.out.println("Producto no encontrado. No se puede actualizar.");
+        if (productoActualizado == null || productoActualizado.getNombre() == null || productoActualizado.getDescripcion() == null) {
+            throw new IllegalArgumentException("El producto a actualizar debe tener un nombre y una descripción válidos.");
+        }
+
+        Producto productoExistente = productos.get(id);
+        if (productoExistente == null) {
+            System.out.println("Producto con ID " + id + " no encontrado para actualizar.");
             return null; // Retornamos null si no existe el producto
         }
 
-        // Obtenemos el producto existente y actualizamos sus atributos
-        Producto productoExistente = productos.get(id);
         productoExistente.setNombre(productoActualizado.getNombre());
         productoExistente.setDescripcion(productoActualizado.getDescripcion());
         productoExistente.setPrecio(productoActualizado.getPrecio());
         productoExistente.setCantidad(productoActualizado.getCantidad());
 
-        System.out.println("Producto actualizado: " + productoExistente.getNombre());
+        System.out.println("Producto actualizado con éxito: " + productoExistente.getNombre());
         return productoExistente;
     }
 
@@ -59,11 +65,11 @@ public class ProductoGestion {
     public boolean eliminarProducto(Long id) {
         Producto productoExistente = productos.get(id);
         if (productoExistente == null) {
-            System.out.println("Producto no encontrado.");
+            System.out.println("Producto con ID " + id + " no encontrado.");
             return false;
         }
         productos.remove(id);
-        System.out.println("Producto eliminado con ID: " + id);
+        System.out.println("Producto eliminado con éxito. ID: " + id);
         return true;
     }
 
@@ -72,11 +78,11 @@ public class ProductoGestion {
         Producto producto = productos.get(id);
 
         if (producto == null) {
-            return "Producto no encontrado.";
+            return "Producto con ID " + id + " no encontrado.";
         }
 
         if (producto.getCantidad() < cantidad) {
-            return "Stock insuficiente. Disponible: " + producto.getCantidad();
+            return "Stock insuficiente para el producto " + producto.getNombre() + ". Disponible: " + producto.getCantidad();
         }
 
         // Calcular el precio total
@@ -86,9 +92,9 @@ public class ProductoGestion {
         producto.setCantidad(producto.getCantidad() - cantidad);
 
         return "Compra realizada con éxito. Producto: " + producto.getNombre() +
-                ", Cantidad: " + cantidad +
-                ", Precio total: " + precioTotal +
-                ", Stock restante: " + producto.getCantidad();
+               ", Cantidad: " + cantidad +
+               ", Precio total: " + precioTotal +
+               ", Stock restante: " + producto.getCantidad();
     }
 
     // 7. Reponer unidades de un producto (aumenta cantidad de stock)
@@ -96,18 +102,22 @@ public class ProductoGestion {
         Producto producto = productos.get(id);
 
         if (producto == null) {
-            return "Producto no encontrado.";
+            return "Producto con ID " + id + " no encontrado.";
+        }
+
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad a reponer debe ser mayor que 0.");
         }
 
         // Actualizar el stock
         producto.setCantidad(producto.getCantidad() + cantidad);
 
-        return "Reponer stock repuesto  con éxito. Producto: " + producto.getNombre() +
-                ", Cantidad: " + cantidad +
-                ", Stock disponible: " + producto.getCantidad();
+        return "Reposición de stock realizada con éxito. Producto: " + producto.getNombre() +
+               ", Cantidad añadida: " + cantidad +
+               ", Stock disponible: " + producto.getCantidad();
     }
 
-    // Métodos auxiliares para depuración
+    // Métodos auxiliares para depuración y control
     public Map<Long, Producto> getProductos() {
         return productos;
     }
@@ -115,5 +125,4 @@ public class ProductoGestion {
     public void setProductos(Map<Long, Producto> productos) {
         this.productos = productos;
     }
-
 }

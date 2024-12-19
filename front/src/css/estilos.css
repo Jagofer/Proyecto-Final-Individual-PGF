@@ -33,6 +33,7 @@ h1 {
     background-color: #3498db; /* Color de fondo de los botones */
     border-color: #3498db;
     color: white;
+    margin-left: 100000px;
 }
 
 .btn-primary:hover {
@@ -101,10 +102,11 @@ button {
 }
 
 button:last-child {
-    margin-right: 0;
+    margin-right: 4%;
 }
 
 /* Estilo de la página de productos cargados */
 #listado {
     margin-top: 30px;
+}
 }
