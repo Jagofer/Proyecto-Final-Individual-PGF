@@ -1,0 +1,82 @@
+/* Establecer una fuente base para toda la página */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Cabecera */
+h1 {
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    margin: 0;
+    text-align: center;
+    font-size: 2rem;
+}
+
+/* Contenedor principal */
+.container {
+    margin-top: 20px;
+}
+
+/* Botones */
+button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Tabla de productos */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+}
+
+.table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Estilos para los formularios */
+.form-group label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* Detalle de Producto */
+#detalle {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#detalle h3 {
+    font-size: 1.8rem;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .table th, .table td {
+        font-size: 0.9rem;
+    }
+}
