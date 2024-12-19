@@ -1,82 +1,110 @@
-/* Establecer una fuente base para toda la página */
 body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f6f9;  /* Fondo más claro */
+    color: #333; /* Color del texto principal */
 }
 
-/* Cabecera */
+body {
+    background-image: url('../Imagen/FondoBlanc.jpg');
+    background-size: cover;  /* Hace que el fondo cubra toda la pantalla */
+    background-position: center;  /* Centra la imagen */
+    background-repeat: no-repeat;  /* Evita que la imagen se repita */
+
+/* Título principal con fuente más grande y moderna */
 h1 {
-    background-color: #007bff;
-    color: white;
-    padding: 15px;
-    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 3rem;
     text-align: center;
-    font-size: 2rem;
+    color: #3e4a59; /* Color más oscuro para el título */
+    margin-top: 30px;
 }
 
-/* Contenedor principal */
-.container {
-    margin-top: 20px;
+/* Botones estilizados */
+.btn {
+    border-radius: 25px; /* Bordes redondeados */
+    padding: 10px 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para los botones */
 }
 
-/* Botones */
-button {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.btn-primary {
+    background-color: #3498db; /* Color de fondo de los botones */
+    border-color: #3498db;
+    color: white;
 }
 
-/* Tabla de productos */
+.btn-primary:hover {
+    background-color: #2980b9; /* Hover más oscuro */
+    border-color: #2980b9;
+}
+
+.btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+/* Tablas con estilo moderno */
 .table {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* Fondo blanco para la tabla */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
 }
 
 .table th, .table td {
-    padding: 12px;
+    padding: 15px;
     text-align: center;
 }
 
 .table th {
-    background-color: #007bff;
+    background-color: #3498db;
     color: white;
 }
 
-.table tbody tr:hover {
+.table td {
     background-color: #f9f9f9;
+    color: #555;
 }
 
-/* Estilos para los formularios */
-.form-group label {
-    font-weight: bold;
-}
-
-.form-control {
-    border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
-}
-
-/* Detalle de Producto */
+/* Detalles del producto */
 #detalle {
     background-color: #fff;
-    border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
 }
 
-#detalle h3 {
-    font-size: 1.8rem;
+/* Inputs y formularios */
+input[type="text"], input[type="number"], input[type="hidden"], button {
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    width: 100%;
+    border: 1px solid #ddd;
 }
 
-/* Estilos responsivos */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 1.5rem;
-    }
+/* Estilo de los botones dentro de los formularios */
+button {
+    width: 48%; /* Dos botones al mismo nivel */
+    margin-right: 4%;
+    font-weight: 600;
+}
 
-    .table th, .table td {
-        font-size: 0.9rem;
-    }
+button:last-child {
+    margin-right: 0;
+}
+
+/* Estilo de la página de productos cargados */
+#listado {
+    margin-top: 30px;
 }
