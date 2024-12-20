@@ -1,15 +1,15 @@
 package es.santander.ascender;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ProductoGestion {
 
-    private Map<Long, Producto> productos = new HashMap<>();
+    private Map<Long, Producto> productos = new ConcurrentHashMap<>(); // Usar ConcurrentHashMap para manejo de concurrencia
 
     public ProductoGestion() {
-        productos.put(1L, new Producto(1, "Producto A", "Descripción A", 100.0f, 10));
+        productos.put(1L, new Producto(1L, "Producto A", "Descripción A", 100.0f, 10));
         productos.put(2L, new Producto(2L, "Producto B", "Descripción B", 150.0f, 0));
     }
 
@@ -17,7 +17,7 @@ public class ProductoGestion {
     public Producto getProductoPorId(long id) {
         Producto producto = productos.get(id);
         if (producto == null) {
-            System.out.println("Producto no encontrado con ID: " + id);
+            throw new IllegalArgumentException("Producto no encontrado con ID: " + id);
         }
         return producto;
     }
@@ -29,11 +29,13 @@ public class ProductoGestion {
 
     // 3. Crear un nuevo producto
     public Producto crearProducto(Producto producto) {
-        if (producto == null || producto.getNombre() == null || producto.getDescripcion() == null) {
-            throw new IllegalArgumentException("El producto debe tener un nombre y una descripción válidos.");
+        if (producto == null || producto.getNombre() == null || producto.getDescripcion() == null
+                || producto.getPrecio() <= 0 || producto.getCantidad() < 0) {
+            throw new IllegalArgumentException("El producto debe tener un nombre, descripción válidos y un precio/cantidad positivos.");
         }
 
-        long maxId = productos.keySet().stream().mapToLong(k -> k).max().orElse(0);
+        // Generación del ID de forma más eficiente
+        long maxId = productos.keySet().stream().mapToLong(k -> k).max().orElse(0L);
         producto.setId(maxId + 1);
         productos.put(producto.getId(), producto);
 
@@ -42,14 +44,14 @@ public class ProductoGestion {
 
     // 4. Actualizar un producto existente
     public Producto actualizarProducto(Long id, Producto productoActualizado) {
-        if (productoActualizado == null || productoActualizado.getNombre() == null || productoActualizado.getDescripcion() == null) {
-            throw new IllegalArgumentException("El producto a actualizar debe tener un nombre y una descripción válidos.");
+        if (productoActualizado == null || productoActualizado.getNombre() == null || productoActualizado.getDescripcion() == null
+                || productoActualizado.getPrecio() <= 0 || productoActualizado.getCantidad() < 0) {
+            throw new IllegalArgumentException("El producto a actualizar debe tener un nombre, descripción válidos y un precio/cantidad positivos.");
         }
 
         Producto productoExistente = productos.get(id);
         if (productoExistente == null) {
-            System.out.println("Producto con ID " + id + " no encontrado para actualizar.");
-            return null; // Retornamos null si no existe el producto
+            throw new IllegalArgumentException("Producto con ID " + id + " no encontrado para actualizar.");
         }
 
         productoExistente.setNombre(productoActualizado.getNombre());
@@ -57,7 +59,6 @@ public class ProductoGestion {
         productoExistente.setPrecio(productoActualizado.getPrecio());
         productoExistente.setCantidad(productoActualizado.getCantidad());
 
-        System.out.println("Producto actualizado con éxito: " + productoExistente.getNombre());
         return productoExistente;
     }
 
@@ -65,18 +66,19 @@ public class ProductoGestion {
     public boolean eliminarProducto(Long id) {
         Producto productoExistente = productos.get(id);
         if (productoExistente == null) {
-            System.out.println("Producto con ID " + id + " no encontrado.");
-            return false;
+            throw new IllegalArgumentException("Producto con ID " + id + " no encontrado.");
         }
         productos.remove(id);
-        System.out.println("Producto eliminado con éxito. ID: " + id);
         return true;
     }
 
     // 6. Comprar un producto (disminuye la cantidad según la compra)
     public String comprarProducto(Long id, int cantidad) {
-        Producto producto = productos.get(id);
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad a comprar debe ser mayor que 0.");
+        }
 
+        Producto producto = productos.get(id);
         if (producto == null) {
             return "Producto con ID " + id + " no encontrado.";
         }
@@ -91,30 +93,26 @@ public class ProductoGestion {
         // Actualizar el stock
         producto.setCantidad(producto.getCantidad() - cantidad);
 
-        return "Compra realizada con éxito. Producto: " + producto.getNombre() +
-               ", Cantidad: " + cantidad +
-               ", Precio total: " + precioTotal +
-               ", Stock restante: " + producto.getCantidad();
+        return String.format("Compra realizada con éxito. Producto: %s, Cantidad: %d, Precio total: %.2f, Stock restante: %d",
+                producto.getNombre(), cantidad, precioTotal, producto.getCantidad());
     }
 
     // 7. Reponer unidades de un producto (aumenta cantidad de stock)
     public String reponerProducto(Long id, int cantidad) {
-        Producto producto = productos.get(id);
-
-        if (producto == null) {
-            return "Producto con ID " + id + " no encontrado.";
-        }
-
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad a reponer debe ser mayor que 0.");
+        }
+
+        Producto producto = productos.get(id);
+        if (producto == null) {
+            return "Producto con ID " + id + " no encontrado.";
         }
 
         // Actualizar el stock
         producto.setCantidad(producto.getCantidad() + cantidad);
 
-        return "Reposición de stock realizada con éxito. Producto: " + producto.getNombre() +
-               ", Cantidad añadida: " + cantidad +
-               ", Stock disponible: " + producto.getCantidad();
+        return String.format("Reposición de stock realizada con éxito. Producto: %s, Cantidad añadida: %d, Stock disponible: %d",
+                producto.getNombre(), cantidad, producto.getCantidad());
     }
 
     // Métodos auxiliares para depuración y control

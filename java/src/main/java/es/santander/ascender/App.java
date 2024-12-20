@@ -128,11 +128,11 @@ public class App {
             return;
         }
 
-        System.out.print("Ingrese el nuevo nombre: ");
+        System.out.print("Escriba el nuevo nombre: ");
         String nuevoNombre = scanner.nextLine();
-        System.out.print("Ingrese la nueva descripción: ");
+        System.out.print("Escriba la nueva descripción: ");
         String nuevaDescripcion = scanner.nextLine();
-        System.out.print("Ingrese el nuevo precio: ");
+        System.out.print("Escriba el nuevo precio: ");
         float nuevoPrecio = obtenerFloat(scanner);
         if (nuevoPrecio == -1) return;
 
