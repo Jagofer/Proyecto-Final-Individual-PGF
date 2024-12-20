@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GestPro 2.0</title>
-    
-    <!-- Enlace a Google Fonts para la nueva fuente -->
+
+    <!-- Fuente personalizada -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <!-- Enlace a los estilos CSS -->
+
+    <!-- Estilos CSS -->
     <link rel="stylesheet" href="css/estilos.css">
-    
-    <!-- Jquery y scripts -->
+
+    <!-- Bibliotecas JavaScript -->
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <script src="javascript/index.js"></script>
-    
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css">
@@ -24,15 +24,10 @@
 
 <body>
     <div class="container">
-        <!-- Título de la aplicación -->
+        <!-- Título principal -->
         <h1>GestPro 2.0</h1>
-        
-        <!-- Botón para refrescar productos -->
-        <div class="text-center">
-            <button id="botonRefrescar" class="btn btn-primary">Refrescar Productos</button>
-        </div>
 
-        <!-- Tabla de productos -->
+        <!-- Tabla dinámica para mostrar productos -->
         <div id="listado" class="mt-4">
             <table id="tablaProductos" class="table table-bordered table-striped">
                 <thead>
@@ -45,17 +40,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Aquí se cargarán las filas dinámicamente -->
+                    <!-- Filas generadas dinámicamente -->
                 </tbody>
             </table>
         </div>
 
-        <!-- Botón para agregar un nuevo producto -->
+        <!-- Botón para agregar un producto nuevo -->
         <div class="text-center mt-4">
             <button id="botonNuevo" class="btn btn-success">Nuevo Producto</button>
         </div>
 
-        <!-- Formulario para detalle de producto -->
+        <!-- Formulario para agregar o editar productos -->
         <div id="detalle" class="mt-4" style="display:none;">
             <h3>Detalle de Producto</h3>
             <form id="formDetalle">
@@ -82,4 +77,6 @@
         </div>
     </div>
 </body>
+
 </html>
+
